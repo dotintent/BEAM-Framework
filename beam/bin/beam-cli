@@ -1,0 +1,49 @@
+#!/usr/bin/env python
+from __future__ import absolute_import, division, print_function
+
+from os import path as p
+import sys
+
+
+def main(argv=None):
+    if argv is None:
+        argv = sys.argv
+    try:
+        fg = UI.ansi.fg
+        UI.output(UI.Frame(UI.STATUS_NONE, 'Use ', UI.Colorized(fg.cyan, 'Ctrl+C'),
+                           UI.Colorized(fg.blue, ' to interrupt anytime, for help call me with option '),
+                           UI.Colorized(fg.cyan, '--help')), '\n')
+        cli_parser = CommandlineParser()
+        project, components, environment, job, job_args, beam_options, ansible_options = cli_parser.parse_commandline(argv[1:])
+        job = Job(environment, job, job_args, beam_options, ansible_options, project, *components)
+        job.validate()
+        exit_code, exit_msg = job.run()
+        raise BEAMExitException(exit_msg, exit_code)
+    except BEAMExitException as e:
+        exit_code = e.exit_code if e.exit_code else BEAM_SUCCESSFUL_TERMINATION
+        exit_msg = UI.Frame(UI.STATUS_FAIL, e.msg) if e.exit_code else UI.Frame(UI.STATUS_SUCCESS, e.msg)
+    except BEAMCommandlineParserException as e:
+        exit_code, exit_msg = BEAM_COMMANDLINE_SYNTAX_ERROR, UI.Frame(UI.STATUS_ERROR, e.msg)
+    except BEAMConfParserException as e:
+        exit_code, exit_msg = BEAM_GENERAL_ERROR, UI.Frame(UI.STATUS_ERROR, e.msg)
+    except KeyboardInterrupt as e:
+        exit_code, exit_msg = BEAM_GENERAL_ERROR, UI.Frame(UI.STATUS_ERROR, "User interrupted execution")
+    except BEAMException as e:
+        status = e.status if e.status else UI.STATUS_ERROR
+        exit_code, exit_msg = BEAM_GENERAL_ERROR, UI.Frame(status, e.msg)
+    UI.output(exit_msg, '\n')
+    return exit_code
+
+
+if __name__ == '__main__':
+    _BEAM_FRAMEWORK_ROOT_DIR = p.dirname(p.dirname(p.dirname(p.abspath(__file__))))
+    sys.path.insert(0, _BEAM_FRAMEWORK_ROOT_DIR)
+    sys.path_importer_cache = {}
+    # if you need import BEAM's ansible remember to add it as first in sys.path (currently not needed)
+    # _BEAM_ANSIBLE_ROOT_DIR = p.join(_BEAM_FRAMEWORK_ROOT_DIR, 'ansible', 'lib')
+    # sys.path.insert(0, _BEAM_ANSIBLE_ROOT_DIR)
+    from beam.cli import UI, CommandlineParser
+    from beam.job import Job
+    from beam.errors import BEAM_GENERAL_ERROR, BEAMException, BEAMConfParserException, \
+        BEAMCommandlineParserException, BEAM_COMMANDLINE_SYNTAX_ERROR, BEAMExitException, BEAM_SUCCESSFUL_TERMINATION
+    sys.exit(main())

@@ -1,0 +1,10 @@
+---
+  - block:
+    - name: Install latest Python {{ params.python_version }} packages
+      package: name="{{ item }}" state=latest
+      with_items:
+        - python{{ params.python_version }}
+      become: yes
+    when: action == "deploy"
+
+

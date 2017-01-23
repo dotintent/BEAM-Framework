@@ -1,0 +1,10 @@
+---
+  - block:
+    - name: Install latest ruby
+      package: name={{ item }} state=latest
+      with_items:
+        - ruby-full
+        - ruby-dev
+      become: yes
+
+

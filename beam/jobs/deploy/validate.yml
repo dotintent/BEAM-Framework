@@ -1,0 +1,11 @@
+- name: Ensuring job playbook has been run as deploy job
+  assert:
+    that: "{{ BEAM_VARS.JOB.NAME is defined and BEAM_VARS.JOB.NAME == 'deploy' }}"
+    msg: "Job playbook has been run as {{ BEAM_VARS.JOB.NAME }} but must be run as deploy"
+  run_once: true
+
+- name: Ensuring DEPLOY_VERSION argument for deploy job is present
+  assert:
+    that: "{{ BEAM_VARS.JOB.DEPLOY_VERSION is defined and BEAM_VARS.JOB.DEPLOY_VERSION != none }}"
+    msg: "Missing DEPLOY_VERSION argument required by job deploy"
+  run_once: true

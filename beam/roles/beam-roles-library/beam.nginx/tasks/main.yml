@@ -1,0 +1,13 @@
+---
+  - block:
+    - name: Install nginx server
+      package: name=nginx state=latest
+      become: yes
+
+    - name: Create an application nginx's config file
+      template:
+        dest: "/etc/nginx/sites-enabled/"
+        src: "{{ params.nginx_site_conf_file_template }}"
+      become: yes
+      notify: restart nginx
+    when: action == "deploy"

@@ -1,0 +1,17 @@
+---
+- name:  Creating BEAM_VARS structure for job {{ __RAW_BEAM_VARS.JOB.NAME }} (delegated to job)
+  include_vars: "{{ job_path }}/{{ __RAW_BEAM_VARS.JOB.NAME }}/beam_vars.yml"
+  check_mode: no
+
+- name: Set BEAM_VARS as fact to make it available to whole {{ __RAW_BEAM_VARS.JOB.NAME }} job playbook
+  set_fact: BEAM_VARS="{{ BEAM_VARS }}"
+  check_mode: no
+
+- name:  Validating job {{ __RAW_BEAM_VARS.JOB.NAME }} specific requirements (delegated to job)
+  include: "{{ job_path }}/{{ __RAW_BEAM_VARS.JOB.NAME }}/validate.yml"
+  run_once: true  # don't needed to run on all play host
+  check_mode: no
+
+- name: "Job {{ __RAW_BEAM_VARS.JOB.NAME }} initialized OK with BEAM_VARS as below: "
+  debug: "var=BEAM_VARS"
+  run_once: true  # don't needed to run on all play host

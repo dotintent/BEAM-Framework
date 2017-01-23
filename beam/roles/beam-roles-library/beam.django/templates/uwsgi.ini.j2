@@ -1,0 +1,15 @@
+[uwsgi]
+chdir=/home/{{ ansible_user }}/{{ params.django_project_root }}/
+module={{ params.django_wsgi_module }}:application
+#home=/home/{{ ansible_user }}/{{ params.django_project_root }}/.venv
+
+master=true
+processes=1
+max-requests=500
+
+socket=/tmp/{{ params.django_project_name }}.sock
+chmod-socket=666
+vacuum=true
+
+pidfile=/tmp/{{ params.django_project_name }}.pid
+daemonize=/home/{{ ansible_user }}/{{ params.django_project_root }}/logs/uwsgi.log

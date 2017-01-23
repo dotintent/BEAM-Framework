@@ -1,0 +1,6 @@
+---
+- name: Install latest compass
+  gem: name={{ item }} state=latest
+  become: yes
+  with_items:
+    - compass

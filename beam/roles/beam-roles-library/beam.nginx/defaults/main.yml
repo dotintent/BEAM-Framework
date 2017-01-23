@@ -1,0 +1,8 @@
+---
+params: {
+  nginx_domain: none,
+  nginx_port: none,
+  nginx_client_max_body_size: 64K,
+  nginx_project_name: "{{ BEAM_VARS.COMPONENT.NAME }}",
+  nginx_site_conf_file_template: none
+}

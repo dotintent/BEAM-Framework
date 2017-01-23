@@ -1,0 +1,15 @@
+---
+  - block:
+    - name: Install git
+      package: name=git state=latest
+      become: yes
+
+    - name: Clone repository {{ params.repo_name }}
+      git:
+        accept_hostkey: yes
+        clone: yes
+        dest: "~/{{ params.destination }}"
+        force: yes
+        repo: "{{ params.repo_url }}"
+        version: "{{ params.version }}"
+    when: action == "deploy"

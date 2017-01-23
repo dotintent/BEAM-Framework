@@ -1,0 +1,3 @@
+# This folder contains special roles used to initialize BEAM default job playbooks to let ansible process it as expected.
+# Everything related to ansible roles that is supported by ansible can be put here.
+

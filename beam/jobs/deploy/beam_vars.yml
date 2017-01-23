@@ -1,0 +1,10 @@
+---
+# temporary vars, do not use them in plays
+__PROJECT: "{{ {} | combine({'PROJECT': __RAW_BEAM_VARS.PROJECT | default({})}) }}"
+__COMPONENT: "{{ {} | combine({'COMPONENT': __RAW_BEAM_VARS.COMPONENT | default({})}) }}"
+__JOB_ARGS: "{{__RAW_BEAM_VARS.JOB.ARGS if __RAW_BEAM_VARS.JOB.ARGS is defined else [] }}"
+__DEPLOY_VERSION: "{{ {} | combine({'DEPLOY_VERSION': __JOB_ARGS.0}) if __JOB_ARGS.0 is defined else {} }}"
+__JOB: "{{ {} | combine({'JOB': __RAW_BEAM_VARS.JOB | combine(__DEPLOY_VERSION)}) }}"
+
+# uff.. finally the final vars dict to be used
+BEAM_VARS: "{{ {}|combine(__PROJECT, __COMPONENT, __JOB) }}"

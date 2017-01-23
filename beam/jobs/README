@@ -1,0 +1,4 @@
+# This folder contains job helper yml files used for BEAM built-in jobs initialization.
+# Each job is a job-named directory that contains required helper yml files.
+
+

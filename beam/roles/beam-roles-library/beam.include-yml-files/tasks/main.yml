@@ -1,0 +1,8 @@
+---
+- name: "{{ params.tasks | join(', ')}} from: {{ params.tasks_path }}"
+  include: "{{ params.tasks_path }}/{{outer_item}}.yml"
+  with_items: "{{ params.tasks }}"
+  loop_control:
+    loop_var: outer_item
+
+

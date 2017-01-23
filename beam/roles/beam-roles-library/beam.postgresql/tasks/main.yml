@@ -1,0 +1,41 @@
+---
+  - block:
+
+    - name: Install latest PostgreSQL {{ params.postgresql_version }} packages
+      package: name={{ item }} state=latest
+      with_items:
+        - postgresql-{{ params.postgresql_version }}
+        - postgresql-client-{{ params.postgresql_version }}
+        - postgresql-contrib-{{ params.postgresql_version }}
+        - postgresql-server-dev-{{ params.postgresql_version }}
+        - python-psycopg2
+        - libpq-dev
+      become: yes
+
+    - name: Create postgres pg_hba.conf file
+      template:
+        src: "{{ params.pg_hba_conf_file_template }}"
+        dest: "/etc/postgresql/{{ params.postgresql_version }}/main/pg_hba.conf"
+      become: yes
+      notify: restart postgresql
+      when: params.pg_hba_conf_file_template is defined
+
+    - name: Create database
+      postgresql_db:
+        name: "{{ params.db_name }}"
+        port: "{{ params.db_port }}"
+        state: present
+      become: yes
+      become_user: postgres
+
+    - name: Create user
+      postgresql_user:
+        db: "{{ params.db_name }}"
+        port: "{{ params.db_port }}"
+        name: "{{ params.db_user_login }}"
+        password: "{{ params.db_user_password }}"
+        priv: ALL
+      become: yes
+      become_user: postgres
+
+    when: action == "deploy"

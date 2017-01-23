@@ -1,0 +1,6 @@
+---
+params: {
+  postgresql_version: 9.5,
+  db_host: localhost,
+  db_port: 5432,
+}

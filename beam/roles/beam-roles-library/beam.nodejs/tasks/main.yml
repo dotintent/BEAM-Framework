@@ -1,0 +1,11 @@
+---
+  - block:
+    - name: Install latest nodejs & npm
+      package: name={{ item }} state=latest
+      with_items:
+        - nodejs
+        - nodejs-legacy
+        - npm
+      become: yes
+
+

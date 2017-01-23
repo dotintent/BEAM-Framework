@@ -1,0 +1,11 @@
+- name: Ensuring job playbook has been run as service job
+  assert:
+    that: "{{ BEAM_VARS.JOB.NAME is defined and BEAM_VARS.JOB.NAME == 'service' }}"
+    msg: "Job playbook has been run as {{ BEAM_VARS.JOB.NAME }} but must be run as service"
+  run_once: true
+
+- name: Ensuring SERVICE_COMMAND argument for service job is present
+  assert:
+    that: "{{ BEAM_VARS.JOB.SERVICE_COMMAND is defined and BEAM_VARS.JOB.SERVICE_COMMAND != none }}"
+    msg: "Missing SERVICE_COMMAND argument required by job deploy"
+  run_once: true

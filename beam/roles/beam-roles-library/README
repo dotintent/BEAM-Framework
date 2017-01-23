@@ -1,0 +1,3 @@
+# This folder contains ansible roles used by job playbooks that BEAM passes to ansible during its runtime.
+# Everything related to ansible roles that is supported by ansible can be put here.
+

@@ -1,0 +1,15 @@
+---
+  - block:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+      become: yes
+    - name: Install some useful stuff
+      package: name={{ item }}
+      become: yes
+      with_items:
+        - build-essential
+        - libffi-dev
+        - acl
+        - mc
+    when: action == "deploy"

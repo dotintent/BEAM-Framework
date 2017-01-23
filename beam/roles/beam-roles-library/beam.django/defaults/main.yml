@@ -1,0 +1,7 @@
+---
+params: {
+  django_project_name: "{{ BEAM_VARS.PROJECT.NAME }}",
+  django_project_root: "{{ BEAM_VARS.PROJECT.NAME }}",
+  db_host: localhost,
+  db_port: 5432,
+}

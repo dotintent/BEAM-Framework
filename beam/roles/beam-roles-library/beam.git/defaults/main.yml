@@ -1,0 +1,7 @@
+---
+params: {
+  repo_url: "{{ BEAM_VARS.COMPONENT.REPO_URL }}",
+  repo_name: "{{ BEAM_VARS.COMPONENT.NAME }}",
+  version: "{{ BEAM_VARS.JOB.DEPLOY_VERSION }}",
+  destination: "{{ BEAM_VARS.COMPONENT.NAME }}"
+}
