@@ -86,11 +86,11 @@ First, clone down the repository (for this example target destination is *~/BEAM
 $ cd ~
 $ git clone git@github.com:inFullMobile/BEAM-Framework.git && cd BEAM-Framework
 ```
-Next, you need to run BEAM setup script (sourced as below), which will take care of the rest (downloading proper Ansible version used exclusively by BEAM Framework as it does not use Ansible installed on your system, appending BEAM binaries path to your system path etc):
+Next, you need to run BEAM setup script, which will take care of the rest (downloading proper Ansible version used exclusively by BEAM Framework as it does not use Ansible installed on your system, appending BEAM binaries path to your system path etc):
 
 ```console
 $ cd beam/bin
-$ source beam-setup
+$ . beam-setup
 
 Setting up BEAM framework, please wait a minute...
 

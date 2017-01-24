@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ensure is sourced
 [[ "$0" != "$BASH_SOURCE" ]] && IS_SOURCED=1 || IS_SOURCED=0
-if [ $IS_SOURCED == 0 ]; then
+if [ "$IS_SOURCED" == 0 ]; then
     echo "Usage: $ source beam-setup"
     read -n 1 -p "BEAM setup is intended to be sourced, but started as standalone script, press any key to exit..."
     echo && exit
@@ -9,16 +9,16 @@ fi
 
 echo -e "\nSetting up BEAM framework, please wait a minute...\n"
 
+PYTHON=$(which python 2>/dev/null || which python3 2>/dev/null)
+PYTHON_BIN=${PYTHON_BIN-"$PYTHON"}
+
+BEAM_BIN_DIR=$("$PYTHON_BIN" -c "import os; print(os.path.realpath('$(dirname $BASH_SOURCE)'))")
+
 BEAM_PATH_BLOCK="# BEGIN BEAM MANAGED BLOCK
 if [ -d \"${BEAM_BIN_DIR}\" ]; then
   PATH=\$PATH:${BEAM_BIN_DIR}
 fi
 # END BEAM MANAGED BLOCK"
-
-PYTHON=$(which python 2>/dev/null || which python3 2>/dev/null)
-PYTHON_BIN=${PYTHON_BIN-$PYTHON}
-
-BEAM_BIN_DIR=$($PYTHON_BIN -c "import os; print(os.path.realpath('$(dirname $BASH_SOURCE)'))")
 
 # Adding beam binaries to system PATH
 if [ -d "$BEAM_BIN_DIR" ] && [[ ":$PATH:" != *":$BEAM_BIN_DIR:"* ]]; then
@@ -31,9 +31,9 @@ echo "$BEAM_PATH_BLOCK" >> ~/.bashrc
 
 # downloading Ansible
 ANSIBLE_REPO_PATH=$($PYTHON_BIN -c "import os; print(os.path.realpath(os.path.join('$BEAM_BIN_DIR', '..', '..', 'ansible')))")
-if [ -d $ANSIBLE_REPO_PATH ]; then
-    rm -rf $ANSIBLE_REPO_PATH
+if [ -d "$ANSIBLE_REPO_PATH" ]; then
+    rm -rf "$ANSIBLE_REPO_PATH"
 fi
-git clone -q --recursive --depth 1 git://github.com/ansible/ansible.git $ANSIBLE_REPO_PATH
+git clone -q --recursive --depth 1 git://github.com/ansible/ansible.git "$ANSIBLE_REPO_PATH"
 
 echo "BEAM setup has finished!"
