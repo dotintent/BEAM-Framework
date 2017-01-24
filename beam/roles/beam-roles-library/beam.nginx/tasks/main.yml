@@ -6,7 +6,7 @@
 
     - name: Create an application nginx's config file
       template:
-        dest: "/etc/nginx/sites-enabled/"
+        dest: "/etc/nginx/sites-enabled/{{ BEAM_VARS.COMPONENT.NAME }}.conf"
         src: "{{ params.nginx_site_conf_file_template }}"
       become: yes
       notify: restart nginx
