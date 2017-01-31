@@ -1,0 +1,4 @@
+---
+params: {
+  swapfile_size: 0
+}

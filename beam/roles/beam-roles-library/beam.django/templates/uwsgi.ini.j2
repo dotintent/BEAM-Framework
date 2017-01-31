@@ -1,15 +1,33 @@
 [uwsgi]
-chdir=/home/{{ ansible_user }}/{{ params.django_project_root }}/
-module={{ params.django_wsgi_module }}:application
-#home=/home/{{ ansible_user }}/{{ params.django_project_root }}/.venv
 
-master=true
-processes=1
-max-requests=500
+# user/group of uwsgi process once it’s started
+uid             = {{ ansible_user }}
+gid             = {{ ansible_user }}
 
-socket=/tmp/{{ params.django_project_name }}.sock
-chmod-socket=666
-vacuum=true
+# Django's project base directory (full path)
+chdir           = {{ params.django_project_root }}/
 
-pidfile=/tmp/{{ params.django_project_name }}.pid
-daemonize=/home/{{ ansible_user }}/{{ params.django_project_root }}/logs/uwsgi.log
+# Django's wsgi module
+module          = {{ params.django_wsgi_module }}:application
+
+# the virtualenv (full path)
+home            = {{ params.django_project_root }}/.venv
+
+# master process
+master          = true
+
+# maximum number of worker processes
+processes       = 2
+
+# socket settings
+socket          = /tmp/{{ params.django_project_name }}.sock
+chmod-socket    = 666
+
+# clear environment on exit
+vacuum          = true
+
+# pid settings
+pidfile         = /tmp/{{ params.django_project_name }}.pid
+
+# exit instead of brutal reload on SIGTERM
+die-on-term     = true

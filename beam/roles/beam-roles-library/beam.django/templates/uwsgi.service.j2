@@ -1,0 +1,12 @@
+[Unit]
+Description=uWSGI instance to serve {{ params.django_project_name }}
+After=network.target
+
+[Service]
+User={{ ansible_user }}
+Group={{ ansible_user }}
+WorkingDirectory={{ params.django_project_root }}
+ExecStart={{ params.django_project_root }}/.venv/bin/uwsgi --ini {{ params.django_project_root }}/uwsgi.ini --logto {{ params.django_project_root }}/logs/uwsgi.log
+
+[Install]
+WantedBy=multi-user.target

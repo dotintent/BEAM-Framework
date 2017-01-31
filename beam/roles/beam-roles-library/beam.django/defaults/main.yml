@@ -1,7 +1,7 @@
 ---
 params: {
-  django_project_name: "{{ BEAM_VARS.PROJECT.NAME }}",
-  django_project_root: "{{ BEAM_VARS.PROJECT.NAME }}",
+  django_project_name: "{{ BEAM_VARS.COMPONENT.NAME }}",
+  django_project_root: "/home/{{ ansible_user }}/{{ BEAM_VARS.COMPONENT.NAME }}",
   db_host: localhost,
   db_port: 5432,
 }
