@@ -98,12 +98,11 @@ BEAM setup has finished! Press any key to exit...
 ```
 
 ### Update
-To update BEAM to latest version just pull latest code from BEAM repository master branch and re-run BEAM setup script. BEAM Framework repo has special tag LATEST_STABLE_VERSION you can just checkout. It's moved for every release to latest stable version. 
+To update BEAM to latest version just pull latest code from BEAM repository master branch and re-run BEAM setup script (master branch contains always latest stable version code.)
 
 ```console
 $ cd ~/BEAM-Framework
 $ git pull --rebase && cd /beam/bin
-$ git checkout LATEST_STABLE_VERSION
 $ source beam-setup
 ```
 

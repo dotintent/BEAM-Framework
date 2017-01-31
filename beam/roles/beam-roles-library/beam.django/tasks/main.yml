@@ -1,6 +1,7 @@
 ---
   - block:
-    - name: Install/update system packages required by Django framework & web application that uses it
+
+    - name: Install/update system packages required by Django framework and related
       package: name="{{ item }}" state=latest
       with_items:
         - build-essential
@@ -13,30 +14,39 @@
 
     - name: Prepare virtualenv
       pip:
-        requirements: "~/{{ params.django_project_root }}/requirements.txt"
-        virtualenv: "~/{{ params.django_project_root }}/.venv"
+        requirements: "{{ params.django_project_root }}/requirements.txt"
+        virtualenv: "{{ params.django_project_root }}/.venv"
         virtualenv_python: python{{ params.virtualenv_python_version }}
 
     - name: Create log files dir
-      file: path="~/{{ params.django_project_root }}/logs" state=directory
+      file: path="{{ params.django_project_root }}/logs" state=directory owner="{{ansible_user}}" group=www-data mode=0775
+      become: yes
 
-    - name: Create local_settings file
+    - name: Create media dir
+      file: path="{{ params.django_project_root }}/media" state=directory owner="{{ansible_user}}" group=www-data mode=0775
+      become: yes
+
+    - name: Create local settings file
       template:
         src: "{{ params.django_local_settings_template }}"
-        dest: "~/{{ params.django_project_root }}/djangoapp/local_settings.py"
+        dest: "{{ params.django_project_root }}/djangoapp/local_settings.py"
 
     - name: Run manage.py migrate
       django_manage:
-        app_path: "~/{{ params.django_project_root }}"
+        app_path: "{{ params.django_project_root }}"
         command: migrate
-        #pythonpath: "{{ application_pythonpath }}"
-        virtualenv: "~/{{ params.django_project_root }}/.venv"
+        virtualenv: "{{ params.django_project_root }}/.venv"
 
     - name: Create uwsgi ini file
       template:
         src: templates/uwsgi.ini.j2
-        dest: "~/{{ params.django_project_root }}/uwsgi.ini"
+        dest: "{{ params.django_project_root }}/uwsgi.ini"
 
-    - name: Start uwsgi
-      shell: "~/{{ params.django_project_root }}/.venv/bin/uwsgi --ini ~/{{ params.django_project_root }}/uwsgi.ini"
+    - name: Create uwsgi systemd config file
+      template:
+        src: templates/uwsgi.service.j2
+        dest: "/etc/systemd/system/{{ params.django_project_name }}-uwsgi.service"
+      become: yes
+      notify: restart uwsgi
+
     when: action == "deploy"
