@@ -34,6 +34,6 @@ ANSIBLE_REPO_PATH=$($PYTHON_BIN -c "import os; print(os.path.realpath(os.path.jo
 if [ -d "$ANSIBLE_REPO_PATH" ]; then
     rm -rf "$ANSIBLE_REPO_PATH"
 fi
-git clone -q --recursive --depth 1 git://github.com/ansible/ansible.git "$ANSIBLE_REPO_PATH"
+git clone -q --branch v2.2.0.0-1 --recursive --depth 1 git://github.com/ansible/ansible.git "$ANSIBLE_REPO_PATH"
 
 echo "BEAM setup has finished!"

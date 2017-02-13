@@ -1,4 +1,4 @@
-![BEAM Demo deply showcase](BEAM-Demo-deploy-showcase.gif  "Logo Title Text 1")
+![BEAM Demo deply showcase](BEAM-Demo-deploy-showcase.gif  "BEAM Demo deply showcase")
 
 *Animation above presents how BEAM runs deploying its demo project. Duration: 5min*
  
@@ -45,6 +45,9 @@ And that's not all folks! Behind the CLI scene (used to run typical *devops* tas
 Due to (built-in *by design*) flexibility and extensibility, BEAM Framework may handle even complex configurations of project/components with many dependencies and customizations that may evolve during development. All this could be achieved just by utilizing few smart concepts and appropriate directory hierarchy structure on project/project components repositories, that keeps Ansible playbooks/roles and several project/components *ini-like config files* (used by BEAM to manage your projects/components).
 
 Sounds good for you? Keep reading, start using and help making BEAM better!
+>------
+>**REMARK: Pre-1.0 versions of BEAM Framework are not intended to be used on production environments but are fairly fine for any kind of develop/staging/qa environments.**
+-----
 
 ## Table of Contents
 
@@ -338,13 +341,20 @@ Please use the issue tracker to report any bugs or feature requests, PRs are wel
 
 Current version is: 0.9
 
-REMARK: versions below 1.0 should be concidered as experimental & non-stable, you're using it on your own risk ;)
+REMARK: versions below 1.0 should be concidered as experimental & non-stable, you're using it on your own risk, especially on production environments ;)
+
+
+### v0.9.1
+
+Minor bugfixing and improvements.
+
+Ansible engine version used:  v2.2.0.0-1
 
 ### v0.9
 
 First released version. Experimental & unstable - some things may unexpectedly change ;)
 
-Ansible engine version used by BEAM Framework:  v2.2.0.0-1
+Ansible engine version used:  v2.2.0.0-1
 
 
 ## Credits
