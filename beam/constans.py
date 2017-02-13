@@ -1,5 +1,5 @@
 import os.path as p
-BEAM_VERSION = '0.9'
+BEAM_VERSION = '0.9.1'
 BEAM_PROJECT_CONF_NAME = 'project.conf'
 BEAM_COMPONENT_CONF_NAME = 'component.conf'
 
