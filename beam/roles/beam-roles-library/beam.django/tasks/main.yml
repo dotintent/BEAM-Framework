@@ -31,11 +31,14 @@
         src: "{{ params.django_local_settings_template }}"
         dest: "{{ params.django_project_root }}/djangoapp/local_settings.py"
 
-    - name: Run manage.py migrate
+    - name: Run manage.py commands
       django_manage:
         app_path: "{{ params.django_project_root }}"
-        command: migrate
+        command: "{{ item }}"
         virtualenv: "{{ params.django_project_root }}/.venv"
+      with_items:
+        - migrate
+        - collectstatic
 
     - name: Create uwsgi ini file
       template:
